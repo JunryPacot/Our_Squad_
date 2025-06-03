@@ -3,22 +3,29 @@
 <head>
   <title>Login & Register Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Add Google Fonts for a modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <style>
   * {
     box-sizing: border-box;
   }
 
+  html {
+    font-size: 16px;
+  }
+
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #000000, #0f0f0f);
+    background: radial-gradient(ellipse at 60% 40%, #232a3a 0%, #0f2027 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    perspective: 1800px;
   }
 
   body::before {
@@ -26,32 +33,89 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://junrypacot.github.io/Our_Squad_/ASSCAT.png');
+    width: 100vw;
+    height: 100vh;
+    background-image: url('ASSCAT.png');
     background-size: cover;
     background-position: center;
-    filter: blur(12px) brightness(0.6);
-    z-index: -1;
+    filter: blur(18px) brightness(0.45) saturate(1.2);
+    z-index: -2;
     animation: lightningBG 4s infinite alternate ease-in-out;
   }
 
+  body::after {
+    /* Add a subtle 3D grid overlay */
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: repeating-linear-gradient(120deg, #00f0ff11 0 2px, transparent 2px 40px),
+                repeating-linear-gradient(60deg, #a020f011 0 2px, transparent 2px 40px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   @keyframes lightningBG {
-    0% { filter: blur(12px) brightness(0.6); }
-    50% { filter: blur(15px) brightness(1); }
-    100% { filter: blur(12px) brightness(0.6); }
+    0% { filter: blur(18px) brightness(0.45) saturate(1.2);}
+    50% { filter: blur(22px) brightness(0.7) saturate(1.4);}
+    100% { filter: blur(18px) brightness(0.45) saturate(1.2);}
   }
 
   .container {
     max-width: 420px;
-    width: 90%;
-    padding: 30px 25px;
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(0, 255, 255, 0.3);
-    box-shadow: 0 0 20px #0ff, 0 0 60px #09f, 0 0 80px #a0f;
+    width: 95vw;
+    padding: 40px 30px 32px 30px;
+    border-radius: 28px;
+    background: rgba(18, 32, 47, 0.96);
+    backdrop-filter: blur(22px) saturate(1.2);
+    border: 2.5px solid rgba(0, 255, 255, 0.22);
+    box-shadow:
+      0 16px 48px 0 rgba(31, 38, 135, 0.47),
+      0 0 80px #00eaff88,
+      0 8px 48px 12px #000c,
+      0 16px 80px 16px #00f2ff44,
+      0 0 0 8px #00f0ff22 inset;
     animation: pulseGlow 3s infinite ease-in-out;
+    margin: 24px 0;
+    transition: box-shadow 0.3s, background 0.3s, transform 0.5s cubic-bezier(.25,.8,.25,1);
+    position: relative;
+    overflow: visible;
+    transform-style: preserve-3d;
+    will-change: transform;
+    perspective: 1200px;
+  }
+  .container:hover {
+    transform: rotateY(13deg) rotateX(7deg) scale(1.03);
+    box-shadow:
+      0 32px 96px 0 rgba(31, 38, 135, 0.57),
+      0 0 120px #00eaffcc,
+      0 16px 96px 24px #000c,
+      0 32px 160px 32px #00f2ff66,
+      0 0 0 12px #00f0ff33 inset;
+  }
+
+  .container::before {
+    /* Animated border glow */
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 32px;
+    background: linear-gradient(120deg, #00f0ff, #a020f0, #00f0ff, #fff);
+    background-size: 400% 400%;
+    animation: borderAnim 7s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(3.5px) brightness(1.3);
+    opacity: 0.8;
+  }
+  @keyframes borderAnim {
+    0% { background-position: 0% 50%;}
+    50% { background-position: 100% 50%;}
+    100% { background-position: 0% 50%;}
+  }
+  .container > * {
+    position: relative;
+    z-index: 1;
   }
 
   @keyframes pulseGlow {
@@ -63,128 +127,471 @@
     }
   }
 
+  /* 3D floating particles for extra realism */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.22;
+    pointer-events: none;
+    animation: floatParticle 8s infinite linear;
+    z-index: 3;
+    filter: blur(2px);
+    box-shadow: 0 0 24px #fff, 0 0 40px #00f0ff;
+  }
+  .particle.p1 { width: 38px; height: 38px; background: #00f0ff; left: 8%; top: 7%; animation-delay: 0s;}
+  .particle.p2 { width: 22px; height: 22px; background: #a020f0; left: 82%; top: 15%; animation-delay: 2s;}
+  .particle.p3 { width: 28px; height: 28px; background: #fff; left: 60%; top: 80%; animation-delay: 4s;}
+  .particle.p4 { width: 18px; height: 18px; background: #00f0ff; left: 30%; top: 62%; animation-delay: 1s;}
+  .particle.p5 { width: 26px; height: 26px; background: #a020f0; left: 70%; top: 40%; animation-delay: 3s;}
+
+  @keyframes floatParticle {
+    0% { transform: translateY(0) scale(1) rotate(0deg);}
+    50% { transform: translateY(-36px) scale(1.3) rotate(180deg);}
+    100% { transform: translateY(0) scale(1) rotate(360deg);}
+  }
+
   .heading {
     text-align: center;
     color: #00ffff;
-    font-size: 26px;
-    margin-bottom: 25px;
-    text-shadow: 0 0 10px #0ff, 0 0 20px #a0f;
+    font-family: 'Orbitron', 'Roboto', Arial, sans-serif;
+    font-size: 2.2rem;
+    margin-bottom: 1.6rem;
+    text-shadow:
+      0 2px 8px #0ff,
+      0 0 20px #a0f,
+      0 8px 24px #000a,
+      0 0 64px #00f0ff;
+    letter-spacing: 2px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    transform: translateZ(32px);
+    user-select: none;
   }
 
   .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 1.3rem;
     position: relative;
+    z-index: 1;
+    transform: translateZ(18px);
   }
 
   label {
-    color: #fff;
-    font-weight: bold;
-    margin-bottom: 5px;
+    color: #e0f7fa;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
     display: block;
+    font-size: 1.07rem;
+    letter-spacing: 0.7px;
+    transition: color 0.2s;
+    text-shadow: 0 1px 2px #0008, 0 0 8px #00f0ff33;
+    font-family: 'Roboto', Arial, sans-serif;
   }
 
   input[type="text"],
   input[type="password"] {
     width: 100%;
-    padding: 12px;
-    padding-right: 40px;
+    padding: 1.1rem 3.1rem 1.1rem 1.1rem;
     border: none;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    background: linear-gradient(120deg, #232a3a 60%, #1a2a3a 100%);
     color: #00ffff;
-    font-size: 16px;
+    font-size: 1.13rem;
     outline: none;
     transition: 0.3s;
+    margin-top: 0.2rem;
+    box-shadow:
+      0 2px 12px #00eaff33,
+      0 1px 4px #0008;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    border-bottom: 2.5px solid #00f0ff88;
+    filter: drop-shadow(0 2px 8px #00f0ff33);
+    backdrop-filter: blur(2.5px);
+    transform: translateZ(10px);
   }
 
   input[type="text"]:focus,
   input[type="password"]:focus {
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 10px #0ff, 0 0 20px #a0f;
+    background: linear-gradient(120deg, #232a3a 60%, #1a2a3a 100%);
+    box-shadow: 0 0 22px #0ff, 0 0 36px #a0f, 0 2px 8px #000a;
+    color: #fff;
+    border-bottom: 2.5px solid #a020f0;
   }
 
   .toggle-password {
     position: absolute;
-    top: 35px;
-    right: 15px;
-    font-size: 20px;
+    top: 50%;
+    right: 1.2rem;
+    transform: translateY(-50%) translateZ(10px);
+    font-size: 1.7rem;
     color: #0ff;
     cursor: pointer;
     user-select: none;
-    text-shadow: 0 0 5px #0ff;
+    text-shadow: 0 0 8px #0ff, 0 2px 8px #000a;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    z-index: 2;
+    background: rgba(0,255,255,0.09);
+    box-shadow: 0 2px 12px #00eaff33;
+  }
+  .toggle-password:active,
+  .toggle-password:focus {
+    background: rgba(0,255,255,0.22);
+    outline: none;
+    color: #fff;
+    box-shadow: 0 0 18px #0ff, 0 0 32px #a0f;
   }
 
   button {
     width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #00f0ff, #a020f0);
+    padding: 1.1rem;
+    background: linear-gradient(135deg, #00f0ff 30%, #a020f0 100%);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 18px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1.18rem;
     cursor: pointer;
-    box-shadow: 0 0 20px #00f0ff;
-    transition: 0.3s ease;
+    box-shadow:
+      0 4px 24px #00f0ff44,
+      0 2px 12px #000a;
+    transition: 0.3s cubic-bezier(.25,.8,.25,1);
+    margin-top: 0.6rem;
+    letter-spacing: 1.2px;
+    position: relative;
+    z-index: 1;
+    transform: translateZ(14px);
   }
 
-  button:hover {
-    background: linear-gradient(135deg, #a020f0, #00f0ff);
-    box-shadow: 0 0 30px #f0f, 0 0 60px #00f0ff;
+  button:hover,
+  button:focus {
+    background: linear-gradient(135deg, #a020f0 30%, #00f0ff 100%);
+    box-shadow:
+      0 8px 40px #f0f,
+      0 0 80px #00f0ff,
+      0 4px 24px #000c;
+    outline: none;
+    transform: scale(1.05) translateZ(18px);
   }
 
   .note,
   .toggle-link,
   .message {
-    color: #eee;
+    color: #e0f7fa;
     text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
+    margin-top: 1.1rem;
+    font-size: 1.07rem;
+    word-break: break-word;
+    z-index: 1;
+    position: relative;
+    text-shadow: 0 1px 2px #0008, 0 0 8px #00f0ff33;
+    transform: translateZ(12px);
   }
 
   .note {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #00f0ff;
+    background: rgba(255, 255, 255, 0.13);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1.5px solid #00f0ff;
+    margin-bottom: 1.3rem;
+    font-size: 1.05rem;
+    box-shadow:
+      0 2px 12px #00eaff22,
+      0 1px 4px #0008;
+    backdrop-filter: blur(2.5px);
   }
 
   .toggle-link {
     cursor: pointer;
     text-decoration: underline;
     color: #00f0ff;
-    text-shadow: 0 0 5px #0ff;
+    text-shadow: 0 0 8px #0ff, 0 1px 2px #0008;
+    margin-top: 1.3rem;
+    display: block;
+    font-size: 1.09rem;
+    transition: color 0.2s;
+    font-weight: 600;
+  }
+  .toggle-link:hover,
+  .toggle-link:focus {
+    color: #a0f;
+    outline: none;
+    text-shadow: 0 0 18px #a0f, 0 1px 2px #0008;
   }
 
   .message {
-    padding: 10px;
-    border-radius: 5px;
+    padding: 1rem;
+    border-radius: 8px;
     display: none;
+    margin-top: 1.3rem;
+    font-size: 1.09rem;
+    font-weight: 700;
+    box-shadow: 0 2px 12px #00eaff22, 0 1px 4px #0008;
+    backdrop-filter: blur(2.5px);
   }
 
   .success {
-    background-color: rgba(18, 189, 236, 0.8);
+    background-color: rgba(18, 189, 236, 0.96);
+    color: #fff;
   }
 
   .error {
-    background-color: rgba(220, 53, 69, 0.8);
+    background-color: rgba(220, 53, 69, 0.96);
+    color: #fff;
   }
 
-  @media (max-width: 480px) {
-    .container {
-      margin: 40px 10px;
-      padding: 25px 15px;
-    }
+  /* --- ADVANCED 3D & HOLOGRAPHIC EFFECTS --- */
 
-    .heading {
-      font-size: 22px;
+  /* 3D Neon Bars */
+  .neon-bar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 82%;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #00f0ff 0%, #a020f0 100%);
+    box-shadow: 0 0 24px #00f0ff88, 0 0 48px #a020f088;
+    opacity: 0.85;
+    z-index: 3;
+    animation: neonBarAnim 3s linear infinite alternate;
+    filter: drop-shadow(0 0 12px #00f0ff88);
+  }
+  .neon-bar.top { top: 18px; }
+  .neon-bar.bottom { bottom: 18px; }
+
+  @keyframes neonBarAnim {
+    0% { filter: brightness(1.2) blur(1px);}
+    100% { filter: brightness(2.2) blur(2.5px);}
+  }
+
+  /* Glowing Orbs */
+  .orb {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00f0ff 0%, #a020f0 80%, transparent 100%);
+    box-shadow: 0 0 32px 12px #00f0ff99, 0 0 64px 24px #a020f099;
+    z-index: 3;
+    opacity: 0.7;
+    animation: orbGlow 4s ease-in-out infinite alternate;
+  }
+  .orb.tl { top: -10px; left: -10px; }
+  .orb.tr { top: -10px; right: -10px; }
+  .orb.bl { bottom: -10px; left: -10px; }
+  .orb.br { bottom: -10px; right: -10px; }
+
+  @keyframes orbGlow {
+    0% { filter: blur(1px) brightness(1);}
+    100% { filter: blur(3px) brightness(1.7);}
+  }
+
+  /* Holographic Logo */
+  .holo-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    margin-top: 0.2rem;
+    z-index: 4;
+    position: relative;
+    perspective: 600px;
+  }
+  .holo-logo-inner {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 60% 40%, #00f0ff 0%, #a020f0 80%, #fff0 100%);
+    box-shadow: 0 0 32px #00f0ff99, 0 0 64px #a020f099;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: holoSpin 7s linear infinite;
+    filter: blur(0.5px) brightness(1.2);
+    border: 2.5px solid #00f0ff55;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+  }
+  .holo-logo-inner::after {
+    content: "";
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff8 0%, #00f0ff22 80%, transparent 100%);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  @keyframes holoSpin {
+    0% { transform: rotateY(0deg);}
+    100% { transform: rotateY(360deg);}
+  }
+  .holo-logo-text {
+    font-family: 'Orbitron', 'Roboto', Arial, sans-serif;
+    font-size: 1.7rem;
+    color: #fff;
+    text-shadow: 0 0 16px #00f0ff, 0 0 32px #a020f0;
+    font-weight: 700;
+    letter-spacing: 2px;
+    z-index: 2;
+    user-select: none;
+    pointer-events: none;
+    text-align: center;
+    filter: blur(0.2px);
+  }
+
+  /* Animated Hologram Grid */
+  .holo-grid {
+    position: absolute;
+    top: 18%;
+    left: 10%;
+    width: 80%;
+    height: 60%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.18;
+    background: repeating-linear-gradient(90deg, #00f0ff33 0 2px, transparent 2px 24px),
+                repeating-linear-gradient(0deg, #a020f033 0 2px, transparent 2px 24px);
+    animation: holoGridMove 8s linear infinite alternate;
+    border-radius: 18px;
+    filter: blur(1.5px);
+  }
+  @keyframes holoGridMove {
+    0% { background-position: 0 0, 0 0;}
+    100% { background-position: 40px 20px, 20px 40px;}
+  }
+
+  /* Glass reflection overlay */
+  .glass-reflection {
+    pointer-events: none;
+    position: absolute;
+    left: 0; top: 0; width: 100%; height: 100%;
+    z-index: 5;
+    border-radius: inherit;
+    background: linear-gradient(120deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 60%, rgba(0,255,255,0.07) 100%);
+    opacity: 0.7;
+    mix-blend-mode: lighten;
+    filter: blur(1.2px);
+  }
+
+  /* 3D shadow under the container */
+  .container-3d-shadow {
+    position: absolute;
+    left: 50%;
+    bottom: -32px;
+    transform: translateX(-50%) scaleX(1.2) perspective(400px) rotateX(30deg);
+    width: 80%;
+    height: 32px;
+    background: radial-gradient(ellipse at center, #00f0ff33 0%, #000 80%);
+    opacity: 0.55;
+    z-index: 0;
+    filter: blur(6px);
+    pointer-events: none;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    html {
+      font-size: 15px;
     }
+    .container {
+      padding: 18px 4vw;
+      margin: 0;
+      border-radius: 16px;
+      min-width: unset;
+      box-shadow: 0 0 10px #0ff, 0 0 20px #09f;
+    }
+    .heading {
+      font-size: 1.3rem;
+    }
+    .toggle-password {
+      font-size: 1.2rem;
+      right: 0.7rem;
+    }
+    button {
+      font-size: 1rem;
+      padding: 0.7rem;
+    }
+    .note, .toggle-link, .message {
+      font-size: 0.97rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    html {
+      font-size: 13px;
+    }
+    .container {
+      padding: 10px 2vw;
+    }
+    .heading {
+      font-size: 1.1rem;
+    }
+  }
+
+  /* Shake animation for button */
+  @keyframes shakeX {
+    0% { transform: translateX(0);}
+    15% { transform: translateX(-16px);}
+    30% { transform: translateX(14px);}
+    45% { transform: translateX(-10px);}
+    60% { transform: translateX(8px);}
+    75% { transform: translateX(-6px);}
+    90% { transform: translateX(4px);}
+    100% { transform: translateX(0);}
+  }
+  .shake {
+    animation: shakeX 0.6s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  /* Run-away animation for button */
+  @keyframes runaway {
+    0% { left: 0; }
+    20% { left: 40%; }
+    40% { left: -40%; }
+    60% { left: 30%; }
+    80% { left: -30%; }
+    100% { left: 0; }
+  }
+  .runaway {
+    position: relative !important;
+    animation: runaway 0.9s cubic-bezier(.36,.07,.19,.97) both;
+    z-index: 10;
   }
 </style>
 
-
 <body>
-  <div class="container">
+  <div class="container" style="position:relative;">
+    <!-- Neon bars for 3D effect -->
+    <div class="neon-bar top"></div>
+    <div class="neon-bar bottom"></div>
+    <!-- Glowing orbs at corners -->
+    <div class="orb tl"></div>
+    <div class="orb tr"></div>
+    <div class="orb bl"></div>
+    <div class="orb br"></div>
+    <!-- Holographic logo -->
+    <div class="holo-logo">
+      <div class="holo-logo-inner">
+        <span class="holo-logo-text">🔒</span>
+      </div>
+    </div>
+    <!-- Animated hologram grid -->
+    <div class="holo-grid"></div>
+    <!-- Glass reflection overlay -->
+    <div class="glass-reflection"></div>
+    <!-- 3D shadow under the container -->
+    <div class="container-3d-shadow"></div>
+    <!-- 3D floating particles for realism -->
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
+
     <h2 class="heading" id="formTitle">Login Form</h2>
 
     <div class="note" id="noteBox">
@@ -194,13 +601,13 @@
     <form name="userForm" onsubmit="return handleForm()">
       <div class="form-group">
         <label>Username:</label>
-        <input type="text" name="name" required>
+        <input type="text" name="name" required autocomplete="username">
       </div>
-     <div class="form-group" style="position: relative;">
-  <label>Password:</label>
-  <input type="password" name="password" id="passwordInput" required>
-  <span class="toggle-password" onclick="togglePassword()">👁️</span>
-</div>
+      <div class="form-group" style="position: relative;">
+        <label>Password:</label>
+        <input type="password" name="password" id="passwordInput" required autocomplete="current-password">
+        <span class="toggle-password" onclick="togglePassword()" tabindex="0" aria-label="Show or hide password">👁️</span>
+      </div>
       <div class="form-group">
         <button type="submit" id="submitBtn">Log In</button>
       </div>
@@ -217,14 +624,20 @@
       const username = document.userForm.name.value.trim();
       const password = document.userForm.password.value.trim();
       const msgBox = document.getElementById("messageBox");
+      const btn = document.getElementById("submitBtn");
 
       const savedUsername = localStorage.getItem("username");
       const savedPassword = localStorage.getItem("password");
+
+      // Remove previous animation classes
+      btn.classList.remove("shake", "runaway");
 
       if (isRegisterMode) {
         if (savedUsername && username === savedUsername) {
           msgBox.innerHTML = "❌ Username already exists. Try logging in.";
           msgBox.className = "message error";
+          btn.classList.add("runaway");
+          setTimeout(() => btn.classList.remove("runaway"), 900);
         } else {
           localStorage.setItem("username", username);
           localStorage.setItem("password", password);
@@ -234,14 +647,16 @@
         }
       } else {
         if (username === savedUsername && password === savedPassword) {
-          msgBox.innerHTML = "✅ Welcome to our Official Website of Our Squad, <strong>" + username + "</strong>!";
+          msgBox.innerHTML = "✅ Welcome to the Official Website of Our Squad, <strong>" + username + "</strong>!";
           msgBox.className = "message success";
           setTimeout(() => {
-            window.location.href = "https://junrypacot.github.io/Orasan_ni_Junry/Junry_clock.html";
+            window.location.href = "https://junrypacot.github.io/JBC_/Junrysburger.html";
           }, 1500);
         } else {
           msgBox.innerHTML = "❌ Incorrect username or password.";
           msgBox.className = "message error";
+          btn.classList.add("runaway");
+          setTimeout(() => btn.classList.remove("runaway"), 900);
         }
       }
 
