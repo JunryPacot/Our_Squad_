@@ -66,12 +66,12 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* changed from center for more space for alerts */
     max-width: 340px;
     width: 100%;
     min-width: 0;
     margin: 24px auto;
-    padding: 18px 12px 14px 12px;
+    padding: 12px 10px 10px 10px;
     box-sizing: border-box;
     border-radius: 22px;
     background: rgba(18, 32, 47, 0.96);
@@ -85,6 +85,7 @@
     animation: pulseGlow 3s infinite ease-in-out;
     transition: box-shadow 0.3s, background 0.3s;
     position: relative;
+    min-height: 420px; /* ensures enough space for alert/message */
   }
 
   form {
@@ -92,11 +93,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.2rem;
   }
 
   .form-group {
     width: 100%;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.3rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -106,6 +109,14 @@
   .form-group input[type="password"] {
     width: 100%;
     margin: 0;
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+    font-size: 1rem;
+    border-radius: 14px;
+  }
+
+  /* Confirm password field in register: compact */
+  #confirmPasswordGroup {
+    margin-bottom: 0.2rem !important;
   }
 
   .toggle-password {
@@ -113,7 +124,15 @@
     top: 50%;
     right: 1.2rem;
     transform: translateY(-50%);
-    /* Remove translateZ and other 3D transforms */
+    font-size: 1.4rem;
+    color: #0ff;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.15rem;
+    border-radius: 50%;
+    z-index: 2;
+    background: rgba(0,255,255,0.09);
+    box-shadow: 0 2px 12px #00eaff33;
   }
 
   @keyframes pulseGlow {
@@ -313,24 +332,33 @@
   }
 
   .message {
-    padding: 1rem;
+    min-height: 1.5em;
+    margin-top: 0.4rem;
+    font-size: 0.97rem;
+    padding: 0.35rem 0.3rem;
+    word-break: break-word;
+    display: block;
+    text-align: center;
     border-radius: 8px;
-    display: none;
-    margin-top: 1.3rem;
-    font-size: 1.09rem;
-    font-weight: 700;
-    box-shadow: 0 2px 12px #00eaff22, 0 1px 4px #0008;
-    backdrop-filter: blur(2.5px);
+    line-height: 1.3;
+    box-shadow: 0 2px 8px #00eaff22;
   }
 
-  .success {
-    background-color: rgba(18, 189, 236, 0.96);
+  .message.success {
+    background-color: rgba(18, 189, 236, 0.92);
+    color: #fff;
+  }
+  .message.error {
+    background-color: rgba(220, 53, 69, 0.92);
     color: #fff;
   }
 
-  .error {
-    background-color: rgba(220, 53, 69, 0.96);
-    color: #fff;
+  @media (max-width: 400px) {
+    .message {
+      font-size: 0.93rem;
+      min-height: 1.3em;
+      padding: 0.25rem 0.15rem;
+    }
   }
 
   /* --- ADVANCED 3D & HOLOGRAPHIC EFFECTS --- */
@@ -535,26 +563,20 @@
       font-size: 15px;
     }
     .container {
-      max-width: 100vw;
-      width: 100vw;
-      padding: 8px 2vw;
+      max-width: 99vw;
+      width: 99vw;
+      padding: 6px 1vw;
       border-radius: 14px;
       margin: 0 auto;
-      max-height: 10vh;
+      min-height: 340px; /* smaller min-height for mobile */
     }
-    .heading {
-      font-size: 1.1rem;
+    .message {
+      font-size: 0.93rem;
+      min-height: 1.3em;
+      padding: 0.25rem 0.15rem;
     }
-    .toggle-password {
-      font-size: 1.1rem;
-      right: 0.7rem;
-    }
-    button {
-      font-size: 0.97rem;
-      padding: 0.6rem;
-    }
-    .note, .toggle-link, .message {
-      font-size: 0.95rem;
+    .form-group {
+      margin-bottom: 0.15rem;
     }
   }
 </style>
@@ -625,26 +647,42 @@
       const savedUsername = localStorage.getItem("username");
       const savedPassword = localStorage.getItem("password");
 
-      // Remove previous animation classes
       btn.classList.remove("shake", "runaway");
 
       if (isRegisterMode) {
+        // Check for confirm password field and match
+        const confirmInput = document.getElementById("confirmPasswordInput");
+        if (confirmInput && password !== confirmInput.value.trim()) {
+          msgBox.innerHTML = "❌ Passwords do not match.";
+          msgBox.className = "message error";
+          btn.classList.add("runaway");
+          setTimeout(() => btn.classList.remove("runaway"), 900);
+          msgBox.style.display = "block";
+          // Scroll to message for mobile visibility
+          msgBox.scrollIntoView({behavior: "smooth", block: "center"});
+          return false;
+        }
         if (savedUsername && username === savedUsername) {
           msgBox.innerHTML = "❌ Username already exists. Try logging in.";
           msgBox.className = "message error";
           btn.classList.add("runaway");
           setTimeout(() => btn.classList.remove("runaway"), 900);
+          msgBox.style.display = "block";
+          msgBox.scrollIntoView({behavior: "smooth", block: "center"});
         } else {
           localStorage.setItem("username", username);
           localStorage.setItem("password", password);
           msgBox.innerHTML = "✅ Account created successfully! You can now log in.";
           msgBox.className = "message success";
+          msgBox.style.display = "block";
+          msgBox.scrollIntoView({behavior: "smooth", block: "center"});
           toggleMode();
         }
       } else {
         if (username === savedUsername && password === savedPassword) {
           msgBox.innerHTML = "✅ Welcome to the Official Website of Our Squad, <strong>" + username + "</strong>!";
           msgBox.className = "message success";
+          msgBox.style.display = "block";
           setTimeout(() => {
             window.location.href = "https://junrypacot.github.io/JBC_/Junrysburger.html";
           }, 1500);
@@ -653,10 +691,11 @@
           msgBox.className = "message error";
           btn.classList.add("runaway");
           setTimeout(() => btn.classList.remove("runaway"), 900);
+          msgBox.style.display = "block";
+          msgBox.scrollIntoView({behavior: "smooth", block: "center"});
         }
       }
 
-      msgBox.style.display = "block";
       return false;
     }
 
@@ -667,17 +706,56 @@
       const note = document.getElementById("noteBox");
       const btn = document.getElementById("submitBtn");
       const toggleLink = document.querySelector(".toggle-link");
+      const form = document.querySelector("form");
+
+      // Remove any extra fields if present
+      let confirmGroup = document.getElementById("confirmPasswordGroup");
+      if (confirmGroup) confirmGroup.remove();
 
       if (isRegisterMode) {
         title.innerText = "Register Account";
         btn.innerText = "Register";
         note.innerHTML = "<strong>Note:</strong> Create a new account. Your data is saved locally.";
         toggleLink.innerText = "Already have an account? Log in here";
+
+        // Add confirm password for register, with eye toggle, compact
+        const passwordGroup = form.querySelector('input[name="password"]').parentElement;
+        const confirmDiv = document.createElement("div");
+        confirmDiv.className = "form-group";
+        confirmDiv.id = "confirmPasswordGroup";
+        confirmDiv.style.marginBottom = "0.2rem";
+        confirmDiv.style.position = "relative";
+        confirmDiv.innerHTML = `
+          <label>Confirm Password:</label>
+          <input type="password" id="confirmPasswordInput" autocomplete="new-password">
+          <span class="toggle-password" id="toggleConfirmPassword" tabindex="0" aria-label="Show or hide confirm password">👁️</span>
+        `;
+        passwordGroup.after(confirmDiv);
+
+        // Add event for confirm password eye toggle
+        setTimeout(() => {
+          const toggle = document.getElementById("toggleConfirmPassword");
+          if (toggle) {
+            toggle.onclick = function() {
+              const input = document.getElementById("confirmPasswordInput");
+              if (input.type === "password") {
+                input.type = "text";
+                toggle.textContent = "❌";
+              } else {
+                input.type = "password";
+                toggle.textContent = "👁️";
+              }
+            };
+          }
+        }, 0);
+
       } else {
         title.innerText = "Login Form";
         btn.innerText = "Log In";
         note.innerHTML = "<strong>Note:</strong> Your credentials are saved in your browser. Use them next time to log in.";
         toggleLink.innerText = "Don't have an account? Register here";
+        let confirmGroup = document.getElementById("confirmPasswordGroup");
+        if (confirmGroup) confirmGroup.remove();
       }
 
       const msgBox = document.getElementById("messageBox");
@@ -687,8 +765,7 @@
 
     function togglePassword() {
       const input = document.getElementById("passwordInput");
-      const toggle = document.querySelector(".toggle-password");
-
+      const toggle = document.querySelector(".toggle-password:not(#toggleConfirmPassword)");
       if (input.type === "password") {
         input.type = "text";
         toggle.textContent = "❌";
