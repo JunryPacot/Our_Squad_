@@ -61,61 +61,59 @@
     100% { filter: blur(18px) brightness(0.45) saturate(1.2);}
   }
 
+  /* Remove side controls and ensure everything is aligned and centered */
   .container {
-    max-width: 420px;
-    width: 95vw;
-    padding: 40px 30px 32px 30px;
-    border-radius: 28px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 340px;
+    width: 100%;
+    min-width: 0;
+    margin: 24px auto;
+    padding: 18px 12px 14px 12px;
+    box-sizing: border-box;
+    border-radius: 22px;
     background: rgba(18, 32, 47, 0.96);
     backdrop-filter: blur(22px) saturate(1.2);
     border: 2.5px solid rgba(0, 255, 255, 0.22);
     box-shadow:
-      0 16px 48px 0 rgba(31, 38, 135, 0.47),
-      0 0 80px #00eaff88,
-      0 8px 48px 12px #000c,
-      0 16px 80px 16px #00f2ff44,
-      0 0 0 8px #00f0ff22 inset;
+      0 12px 32px 0 rgba(31, 38, 135, 0.37),
+      0 0 40px #00eaff44,
+      0 2px 24px 4px #000a,
+      0 8px 40px 8px #00f2ff33;
     animation: pulseGlow 3s infinite ease-in-out;
-    margin: 24px 0;
-    transition: box-shadow 0.3s, background 0.3s, transform 0.5s cubic-bezier(.25,.8,.25,1);
+    transition: box-shadow 0.3s, background 0.3s;
     position: relative;
-    overflow: visible;
-    transform-style: preserve-3d;
-    will-change: transform;
-    perspective: 1200px;
-  }
-  .container:hover {
-    transform: rotateY(13deg) rotateX(7deg) scale(1.03);
-    box-shadow:
-      0 32px 96px 0 rgba(31, 38, 135, 0.57),
-      0 0 120px #00eaffcc,
-      0 16px 96px 24px #000c,
-      0 32px 160px 32px #00f2ff66,
-      0 0 0 12px #00f0ff33 inset;
   }
 
-  .container::before {
-    /* Animated border glow */
-    content: "";
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="password"] {
+    width: 100%;
+    margin: 0;
+  }
+
+  .toggle-password {
     position: absolute;
-    inset: -4px;
-    border-radius: 32px;
-    background: linear-gradient(120deg, #00f0ff, #a020f0, #00f0ff, #fff);
-    background-size: 400% 400%;
-    animation: borderAnim 7s linear infinite;
-    z-index: 0;
-    pointer-events: none;
-    filter: blur(3.5px) brightness(1.3);
-    opacity: 0.8;
-  }
-  @keyframes borderAnim {
-    0% { background-position: 0% 50%;}
-    50% { background-position: 100% 50%;}
-    100% { background-position: 0% 50%;}
-  }
-  .container > * {
-    position: relative;
-    z-index: 1;
+    top: 50%;
+    right: 1.2rem;
+    transform: translateY(-50%);
+    /* Remove translateZ and other 3D transforms */
   }
 
   @keyframes pulseGlow {
@@ -169,13 +167,6 @@
     user-select: none;
   }
 
-  .form-group {
-    margin-bottom: 1.3rem;
-    position: relative;
-    z-index: 1;
-    transform: translateZ(18px);
-  }
-
   label {
     color: #e0f7fa;
     font-weight: 700;
@@ -184,7 +175,7 @@
     font-size: 1.07rem;
     letter-spacing: 0.7px;
     transition: color 0.2s;
-    text-shadow: 0 1px 2px #0008, 0 0 8px #00f0ff33;
+    text-shadow: 0 1px 2px #0008;
     font-family: 'Roboto', Arial, sans-serif;
   }
 
@@ -222,7 +213,7 @@
   .toggle-password {
     position: absolute;
     top: 65%;
-    right: 1.2rem;
+    right: 1.5rem;
     transform: translateY(-50%) translateZ(10px);
     font-size: 1.7rem;
     color: #0ff;
@@ -246,19 +237,19 @@
 
   button {
     width: 100%;
-    padding: 1.1rem;
+    padding: 0.8rem;
     background: linear-gradient(135deg, #00f0ff 30%, #a020f0 100%);
     color: white;
     border: none;
     border-radius: 18px;
     font-weight: bold;
-    font-size: 1.18rem;
+    font-size: 1rem;
     cursor: pointer;
     box-shadow:
       0 4px 24px #00f0ff44,
       0 2px 12px #000a;
     transition: 0.3s cubic-bezier(.25,.8,.25,1);
-    margin-top: 0.6rem;
+    margin-top: 0.3rem;
     letter-spacing: 1.2px;
     position: relative;
     z-index: 1;
@@ -286,16 +277,16 @@
     word-break: break-word;
     z-index: 1;
     position: relative;
-    text-shadow: 0 1px 2px #0008, 0 0 8px #00f0ff33;
+    text-shadow: 0 1px 2px #0008;
     transform: translateZ(12px);
   }
 
   .note {
     background: rgba(255, 255, 255, 0.13);
-    padding: 1rem;
+    padding: 0.7rem;
     border-radius: 12px;
     border: 1.5px solid #00f0ff;
-    margin-bottom: 1.3rem;
+    margin-bottom: 0.7rem;
     font-size: 1.05rem;
     box-shadow:
       0 2px 12px #00eaff22,
@@ -389,58 +380,40 @@
     100% { filter: blur(3px) brightness(1.7);}
   }
 
-  /* Holographic Logo */
-  .holo-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.2rem;
-    margin-top: 0.2rem;
-    z-index: 4;
-    position: relative;
-    perspective: 600px;
-  }
+  /* Holographic Logo - Make it a readable, glowing rectangle instead of a circle */
   .holo-logo-inner {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 60% 40%, #00f0ff 0%, #a020f0 80%, #fff0 100%);
-    box-shadow: 0 0 32px #00f0ff99, 0 0 64px #a020f099;
+    width: auto;
+    min-width: 120px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #00f0ff33 0%, #a020f033 100%);
+    box-shadow: 0 0 24px #00f0ff99, 0 0 48px #a020f099;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: holoSpin 7s linear infinite;
-    filter: blur(0.5px) brightness(1.2);
-    border: 2.5px solid #00f0ff55;
+    filter: blur(0.2px) brightness(1.1);
+    border: 2px solid #00f0ff55;
     position: relative;
     overflow: hidden;
-    transform-style: preserve-3d;
-  }
-  .holo-logo-inner::after {
-    content: "";
-    position: absolute;
-    top: 10px; left: 10px; right: 10px; bottom: 10px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #fff8 0%, #00f0ff22 80%, transparent 100%);
-    pointer-events: none;
-    opacity: 0.7;
-  }
-  @keyframes holoSpin {
-    0% { transform: rotateY(0deg);}
-    100% { transform: rotateY(360deg);}
+    margin: 0 auto;
+    padding: 0 24px;
+    animation: holoGlow 2.5s ease-in-out infinite alternate;
   }
   .holo-logo-text {
     font-family: 'Orbitron', 'Roboto', Arial, sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     color: #fff;
-    text-shadow: 0 0 16px #00f0ff, 0 0 32px #a020f0;
+    text-shadow: 0 0 8px #00f0ff, 0 0 16px #a020f0, 0 2px 8px #000a;
     font-weight: 700;
     letter-spacing: 2px;
     z-index: 2;
     user-select: none;
     pointer-events: none;
     text-align: center;
-    filter: blur(0.2px);
+    filter: none;
+    background: none;
+    border-radius: 0;
+    padding: 0;
   }
 
   /* Animated Hologram Grid */
@@ -492,74 +465,97 @@
     pointer-events: none;
   }
 
-  /* Responsive Design */
-  @media (max-width: 600px) {
+  /* Make sure text is always readable and not too glowy */
+  .heading,
+  .note,
+  .toggle-link,
+  .message,
+  label,
+  input,
+  button {
+    text-shadow: none !important;
+    filter: none !important;
+  }
+  .heading {
+    color: #00ffff;
+    text-shadow: 0 2px 8px #0ff, 0 0 20px #a0f, 0 8px 24px #000a;
+    /* Only a subtle glow for heading */
+  }
+  .note,
+  .toggle-link,
+  .message {
+    color: #e0f7fa;
+    background: none;
+    text-shadow: 0 1px 2px #0008;
+  }
+  .message.success {
+    background-color: rgba(18, 189, 236, 0.96);
+    color: #fff;
+  }
+  .message.error {
+    background-color: rgba(220, 53, 69, 0.96);
+    color: #fff;
+  }
+  label {
+    color: #e0f7fa;
+    text-shadow: 0 1px 2px #0008;
+  }
+  input[type="text"],
+  input[type="password"] {
+    color: #00ffff;
+    background: linear-gradient(120deg, #232a3a 60%, #1a2a3a 100%);
+    border-bottom: 2.5px solid #00f0ff88;
+    box-shadow: 0 2px 12px #00eaff33, 0 1px 4px #0008;
+    filter: none;
+  }
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    color: #fff;
+    border-bottom: 2.5px solid #a020f0;
+    background: linear-gradient(120deg, #232a3a 60%, #1a2a3a 100%);
+    box-shadow: 0 0 22px #0ff, 0 0 36px #a0f, 0 2px 8px #000a;
+  }
+  button {
+    background: linear-gradient(135deg, #00f0ff 30%, #a020f0 100%);
+    color: #fff;
+    box-shadow: 0 4px 24px #00f0ff44, 0 2px 12px #000a;
+    text-shadow: none;
+  }
+  button:hover,
+  button:focus {
+    background: linear-gradient(135deg, #a020f0 30%, #00f0ff 100%);
+    box-shadow: 0 8px 40px #f0f, 0 0 80px #00f0ff, 0 4px 24px #000c;
+    outline: none;
+    transform: scale(1.05) translateZ(18px);
+  }
+
+  /* Responsive Design: Make sure container never exceeds device width */
+  @media (max-width: 400px) {
     html {
       font-size: 15px;
     }
     .container {
-      padding: 18px 4vw;
-      margin: 0;
-      border-radius: 16px;
-      min-width: unset;
-      box-shadow: 0 0 10px #0ff, 0 0 20px #09f;
-    }
-    .heading {
-      font-size: 1.3rem;
-    }
-    .toggle-password {
-      font-size: 1.2rem;
-      right: 0.7rem;
-    }
-    button {
-      font-size: 1rem;
-      padding: 0.7rem;
-    }
-    .note, .toggle-link, .message {
-      font-size: 0.97rem;
-    }
-  }
-
-  @media (max-width: 400px) {
-    html {
-      font-size: 13px;
-    }
-    .container {
-      padding: 10px 2vw;
+      max-width: 100vw;
+      width: 100vw;
+      padding: 8px 2vw;
+      border-radius: 14px;
+      margin: 0 auto;
+      max-height: 10vh;
     }
     .heading {
       font-size: 1.1rem;
     }
-  }
-
-  /* Shake animation for button */
-  @keyframes shakeX {
-    0% { transform: translateX(0);}
-    15% { transform: translateX(-16px);}
-    30% { transform: translateX(14px);}
-    45% { transform: translateX(-10px);}
-    60% { transform: translateX(8px);}
-    75% { transform: translateX(-6px);}
-    90% { transform: translateX(4px);}
-    100% { transform: translateX(0);}
-  }
-  .shake {
-    animation: shakeX 0.6s cubic-bezier(.36,.07,.19,.97) both;
-  }
-
-  /* Run-away animation for button */
-  @keyframes runaway {
-    0% { left: 0; }
-    20% { left: 40%; }
-    40% { left: -40%; }
-    60% { left: 30%; }
-    80% { left: -30%; }
-    100% { left: 0; }
-  }
-  .runaway {
-    position: relative !important;
-    animation: runaway 0.9s cubic-bezier(.36,.07,.19,.97) both;
-    z-index: 10;
+    .toggle-password {
+      font-size: 1.1rem;
+      right: 0.7rem;
+    }
+    button {
+      font-size: 0.97rem;
+      padding: 0.6rem;
+    }
+    .note, .toggle-link, .message {
+      font-size: 0.95rem;
+    }
   }
 </style>
 
@@ -576,7 +572,7 @@
     <!-- Holographic logo -->
     <div class="holo-logo">
       <div class="holo-logo-inner">
-        <span class="holo-logo-text">🔒</span>
+        <span class="holo-logo-text">Our Squad</span>
       </div>
     </div>
     <!-- Animated hologram grid -->
